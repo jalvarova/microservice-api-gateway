@@ -23,7 +23,10 @@ export class JwtService {
 
   // Get User by User ID we get from decode()
   public async validateUser(decoded: any): Promise<Auth> {
-    return this.repository.findOne(decoded.id);
+    console.error("Value decoded", decoded.id, decoded.email)
+    const user = this.repository.findOneBy(decoded.id);
+    console.error("User", (await user).password)
+    return user;
   }
 
   // Generate JWT Token
@@ -45,8 +48,11 @@ export class JwtService {
 
   // Validate JWT Token, throw forbidden error if JWT Token is invalid
   public async verify(token: string): Promise<any> {
+    console.error("Token", token)
     try {
       return this.jwt.verify(token);
-    } catch (err) {}
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
