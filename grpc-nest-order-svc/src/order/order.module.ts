@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { PRODUCT_PACKAGE_NAME, PRODUCT_SERVICE_NAME } from './product.pb';
-import { ProductController } from './product.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrderController } from './order.controller';
+import { Order } from './order.entity';
+import { OrderService } from './order.service';
+import { PRODUCT_SERVICE_NAME, PRODUCT_PACKAGE_NAME } from './product.pb';
 
 @Module({
   imports: [
@@ -16,7 +19,9 @@ import { ProductController } from './product.controller';
         },
       },
     ]),
+    TypeOrmModule.forFeature([Order]),
   ],
-  controllers: [ProductController],
+  controllers: [OrderController],
+  providers: [OrderService],
 })
-export class ProductModule {}
+export class OrderModule {}
